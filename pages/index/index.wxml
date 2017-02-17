@@ -1,0 +1,59 @@
+<!--index.wxml-->
+<view class="container">
+  <!--<scroll-view style="height: {{windowHeight}}px; width: {{windowWidth}}px;" scroll-y="true" bindscrolltolower="loadMore">-->
+    <view class="header shrink">
+      <view class="activity-or-brand">
+        <text id="activity-btn" class="{{activityOrBrand==true?'active':''}}" bindtap="choose1">商场活动</text>
+        <text id="brand-btn" class="{{activityOrBrand==false?'active':''}}" bindtap="choose1">品牌优惠</text>
+      </view>
+    </view>
+    <view class="date-choose shrink">
+      <view class="data-month">{{dateMonth}}</view>
+      <swiper class="date-choose-swiper" indicator-dots="{{false}}" current="{{swiperCurrent}}" bindchange="dateSwiperChange">
+        <block wx:for-item="item" wx:for="{{dateList}}" wx:key="item.id">
+          <swiper-item class="swiper-item">
+            <view class="weekday">
+              <block wx:for-item="week" wx:for="{{dateListArray}}" wx:key="{{index}}">
+                <text class="week">{{week}}</text>
+              </block>
+            </view>
+            <view class="dateday">
+              <block wx:for="{{item.days}}" wx:for-item="day" wx:key="{{day.id}}">
+                <text class="day" id="{{day.id}}" bindtap="chooseDate">
+                  <text class="{{dateCurrentStr==day.id?'active':''}}">{{day.day}}</text>
+                </text>
+              </block>
+            </view>
+          </swiper-item>
+        </block>
+      </swiper>
+    </view>
+    <view class="main-list grow">
+      <view class="list-box activity-list" wx:if="{{activityOrBrand==true}}">
+        <block wx:for="{{list.activity.data}}" wx:key="{{item.Id}}">
+          <navigator url="../detail/detail?id={{item.Id}}" class="list-item">
+            <view class="list-img imgRadio">
+              <image src="{{'http://sum.kdcer.com'+item.Content.PictureUrl}}" class="bg"/>
+            </view>
+            <view class="list-content">
+              <text class="list-title">{{item.Title}}</text>
+              <text class="list-time">{{item.Time}}</text>
+            </view>
+          </navigator>
+        </block>
+      </view>
+      <view class="list-box brand-list" wx:else>
+        <block wx:for="{{list.brand.data}}" wx:key="{{item.Id}}">
+            <view class="item">
+                <navigator class="list-item">
+                    <image class="item-img" src="http://sum.kdcer.com{{item.BrandId.Logo}}"></image>
+                    <view class="item-name"><text>{{item.Title}}</text></view>
+                    <view class="item-word"><text>{{item.Content}}</text></view>
+                    <view class="item-time"><text>{{item.BeginTime}} ~ {{item.EndTime}}</text></view>
+                </navigator>
+            </view>
+        </block>
+      </view>
+    </view>
+  <!--</scroll-view>-->
+</view>
